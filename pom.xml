@@ -8,11 +8,11 @@
     <artifactId>we-app</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>web-app</name>
     <modules>
         <module>order-dto</module>
         <module>order-dao</module>
         <module>order-common</module>
-        <module>order-core</module>
         <module>order-server</module>
         <module>order-service</module>
         <module>order-store</module>
@@ -20,26 +20,38 @@
         <module>order-model</module>
         <module>order-passport</module>
         <module>order-order</module>
+        <module>order-group</module>
+        <module>order-document</module>
+        <module>order-redis</module>
+        <module>order-es</module>
+        <module>order-kafka</module>
+        <module>order-core</module>
     </modules>
 
     <properties>
+
         <project.version>1.0-SNAPSHOT</project.version>
+        <!-- compiler settings properties -->
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <file_encoding>UTF-8</file_encoding>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--maven properties -->
         <maven.test.skip>true</maven.test.skip>
         <maven.jdoc.skip>true</maven.jdoc.skip>
         <downloadSources>true</downloadSources>
-        <!-- compiler settings properties -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <file_encoding>UTF-8</file_encoding>
+
 
         <hutool.version>4.2.1</hutool.version>
         <mysql.version>5.1.47</mysql.version>
-        <spring-boot.version>2.4.0</spring-boot.version>
+        <spring-boot.version>2.1.0.RELEASE</spring-boot.version>
         <mybatis-plus-spring-boot-starter.version>3.4.1</mybatis-plus-spring-boot-starter.version>
     </properties>
 
+    <!-- 统一依赖版本管理  -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -79,12 +91,62 @@
             </dependency>
             <dependency>
                 <groupId>com.luwh</groupId>
+                <artifactId>order-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-document</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-dto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-es</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-group</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
                 <artifactId>order-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.luwh</groupId>
-                <artifactId>order-common</artifactId>
+                <artifactId>order-order</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-passport</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -92,6 +154,25 @@
                 <artifactId>order-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.luwh</groupId>
+                <artifactId>order-store</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
