@@ -30,6 +30,11 @@ public class ResponseResult<T> {
     public static <T> ResponseResult success(T data, String message){
         return new ResponseResult(HttpStatus.OK.value(), message, data, true);
     }
+
+    public static <T> ResponseResult success(T data){
+        return new ResponseResult(HttpStatus.OK.value(), null, data, true);
+    }
+
     public Integer getCode() {
         return code;
     }

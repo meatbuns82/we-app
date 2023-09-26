@@ -20,5 +20,9 @@
             <groupId>com.luwh</groupId>
             <artifactId>order-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.luwh</groupId>
+            <artifactId>order-dao</artifactId>
+        </dependency>
     </dependencies>
 </project>

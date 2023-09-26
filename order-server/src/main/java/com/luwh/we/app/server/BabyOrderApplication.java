@@ -1,10 +1,11 @@
 package com.luwh.we.app.server;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import com.luwh.we.app.common.constants.Constants;
-import org.springframework.stereotype.Component;
 
 
 /**
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Component;
  * @description
  */
 @SpringBootApplication
-@Component
+@ComponentScan(basePackages = "com.luwh.we.app")
+@MapperScan(basePackages = "com.luwh.we.app.dao")
 public class BabyOrderApplication {
     private static final String FILE_PATH = "/conf/application.properties";
     private static final String APPLICATION_HOME = Constants.APPLICATION_HOME;

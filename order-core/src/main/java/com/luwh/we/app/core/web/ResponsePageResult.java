@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
  * @description
  */
 public class ResponsePageResult<T> {
-    private Integer page;
-    private Integer pageSize;
+    private Long page;
+    private Long pageSize;
 
-    private Integer total;
+    private Long total;
     private Integer code;
     private String message;
     private T data;
@@ -27,43 +27,44 @@ public class ResponsePageResult<T> {
         this.success = success;
     }
 
-    public ResponsePageResult(Integer code, Integer page, Integer pageSize, Integer total, T data) {
+    public ResponsePageResult(Integer code, Long page, Long pageSize, Long total, T data, boolean success) {
         this.code = code;
         this.page = page;
         this.pageSize = pageSize;
         this.total = total;
         this.data = data;
+        this.success = success;
     }
 
     public static <T> ResponsePageResult success(Integer code, T data, String message) {
         return new ResponsePageResult(code, message, data, true);
     }
 
-    public static <T> ResponsePageResult success(Integer page, Integer pageSize, Integer total, T data) {
-        return new ResponsePageResult(HttpStatus.OK.value(), page, pageSize, total, data);
+    public static <T> ResponsePageResult success(Long page, Long pageSize, Long total, T data) {
+        return new ResponsePageResult(HttpStatus.OK.value(), page, pageSize, total, data, true);
     }
 
-    public Integer getPage() {
+    public Long getPage() {
         return page;
     }
 
-    public void setPage(Integer page) {
+    public void setPage(Long page) {
         this.page = page;
     }
 
-    public Integer getPageSize() {
+    public Long getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Integer pageSize) {
+    public void setPageSize(Long pageSize) {
         this.pageSize = pageSize;
     }
 
-    public Integer getTotal() {
+    public Long getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Long total) {
         this.total = total;
     }
 
