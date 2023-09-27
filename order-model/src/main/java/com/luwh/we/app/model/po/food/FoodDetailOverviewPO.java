@@ -1,13 +1,13 @@
 package com.luwh.we.app.model.po.food;
 
-import java.util.Date;
-import java.util.List;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author lu.wh
@@ -23,7 +23,7 @@ public class FoodDetailOverviewPO {
     private List<String> cookIngredient; // 菜品的成份
     private byte[] img;
     private String foodCode;
-    private Integer enable;
+    private Boolean enable;
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 
@@ -75,11 +75,11 @@ public class FoodDetailOverviewPO {
         this.foodCode = foodCode;
     }
 
-    public Integer getEnable() {
+    public Boolean getEnable() {
         return enable;
     }
 
-    public void setEnable(Integer enable) {
+    public void setEnable(Boolean enable) {
         this.enable = enable;
     }
 

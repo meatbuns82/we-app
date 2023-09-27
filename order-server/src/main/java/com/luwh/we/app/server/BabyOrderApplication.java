@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.luwh.we.app.common.constants.Constants;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 
 /**
@@ -16,6 +17,7 @@ import com.luwh.we.app.common.constants.Constants;
 @SpringBootApplication
 @ComponentScan(basePackages = "com.luwh.we.app")
 @MapperScan(basePackages = "com.luwh.we.app.dao")
+@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 public class BabyOrderApplication {
     private static final String FILE_PATH = "/conf/application.properties";
     private static final String APPLICATION_HOME = Constants.APPLICATION_HOME;

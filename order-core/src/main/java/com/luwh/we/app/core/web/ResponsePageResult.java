@@ -27,6 +27,15 @@ public class ResponsePageResult<T> {
         this.success = success;
     }
 
+    /**
+     *
+     * @param code
+     * @param page
+     * @param pageSize
+     * @param total
+     * @param data
+     * @param success
+     */
     public ResponsePageResult(Integer code, Long page, Long pageSize, Long total, T data, boolean success) {
         this.code = code;
         this.page = page;
@@ -40,6 +49,15 @@ public class ResponsePageResult<T> {
         return new ResponsePageResult(code, message, data, true);
     }
 
+    /**
+     *
+     * @param page
+     * @param pageSize
+     * @param total
+     * @param data
+     * @return
+     * @param <T>
+     */
     public static <T> ResponsePageResult success(Long page, Long pageSize, Long total, T data) {
         return new ResponsePageResult(HttpStatus.OK.value(), page, pageSize, total, data, true);
     }

@@ -7,4 +7,5 @@ package com.luwh.we.app.common.constants;
  */
 public class Constants {
     public static final String APPLICATION_HOME = "BABY_ORDER_HOME";
+    public static final String SQL_LIMIT_ONE = " limit 1";
 }
