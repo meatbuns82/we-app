@@ -1,4 +1,4 @@
-package com.luwh.we.app.service;
+package com.luwh.we.app.service.food;
 
 import java.util.List;
 

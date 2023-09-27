@@ -1,4 +1,4 @@
-package com.luwh.we.app.service.impl;
+package com.luwh.we.app.service.food.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwh.we.app.dao.FoodKindDao;
 import com.luwh.we.app.model.po.food.FoodKindPO;
 import com.luwh.we.app.service.BaseService;
-import com.luwh.we.app.service.FoodKindService;
+import com.luwh.we.app.service.food.FoodKindService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

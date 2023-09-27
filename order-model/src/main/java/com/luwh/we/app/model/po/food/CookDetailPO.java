@@ -1,12 +1,12 @@
 package com.luwh.we.app.model.po.food;
 
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.util.Date;
 
 /**
  * @author lu.wh
@@ -20,8 +20,12 @@ public class CookDetailPO {
     private String cookName;
     private String cookCode;
     private String mainImgCode;
+    private String cookStep;
+    private String usageFees;
+    @TableField(exist = false)
     private CookStepPo step;
-    private CookUsageFeesPO usageFees;
+    @TableField(exist = false)
+    private CookUsageFeesPO usageFee;
     private String tip;
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
@@ -58,19 +62,23 @@ public class CookDetailPO {
         this.mainImgCode = mainImgCode;
     }
 
-    public CookStepPo getStep() {
-        return step;
-    }
 
     public void setStep(CookStepPo step) {
         this.step = step;
     }
 
-    public CookUsageFeesPO getUsageFees() {
-        return usageFees;
+    public String getCookStep() {
+        return cookStep;
     }
 
-    public void setUsageFees(CookUsageFeesPO usageFees) {
+    public void setCookStep(String cookStep) {
+        this.cookStep = cookStep;
+    }
+
+    public String getUsageFees() {
+        return usageFees;
+    }
+    public void setUsageFees(String usageFees) {
         this.usageFees = usageFees;
     }
 

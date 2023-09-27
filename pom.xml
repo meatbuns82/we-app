@@ -44,7 +44,7 @@
         <maven.jdoc.skip>true</maven.jdoc.skip>
         <downloadSources>true</downloadSources>
 
-
+        <fastjson.version>1.2.58</fastjson.version>
         <hutool.version>4.2.1</hutool.version>
         <mysql.version>5.1.47</mysql.version>
         <spring-boot.version>2.1.0.RELEASE</spring-boot.version>
@@ -66,6 +66,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
