@@ -26,6 +26,7 @@
         <module>order-es</module>
         <module>order-kafka</module>
         <module>order-core</module>
+        <module>order-message</module>
     </modules>
 
     <properties>

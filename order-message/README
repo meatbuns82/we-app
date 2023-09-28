@@ -1,0 +1,4 @@
+message 服务
+    一般考虑用消息中间件，如kafka, rocket等
+message 服务应该是更加通用一点，所以不考虑直接写死集成某一个消息中间件，而是可以采用 SPI机制，设置成可插拔的形式
+    SPI: java service provider interface,具体实现暂时有待考虑

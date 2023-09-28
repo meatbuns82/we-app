@@ -48,6 +48,9 @@ public class AopIntercept {
 
         }
         logger.info("visit.........");
+        // 这里可以写入到 队列里，然后由一个线程池负责从队列写入到kafka,考虑
+        //  需要大量并发写入，队列爆满的场景
+                // 暂定解决方案： 可以采取分为多个队列，以及线程池增长的情况，建议自定义一个线程池
         try {
             return joinPoint.proceed();
         } catch (Throwable e) {
