@@ -16,12 +16,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.luwh</groupId>
-            <artifactId>order-service</artifactId>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.luwh</groupId>
+            <artifactId>order-service</artifactId>
         </dependency>
     </dependencies>
 </project>
