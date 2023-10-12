@@ -16,3 +16,6 @@ data/
 *.tgz
 .idea/
 *.flattened-pom.xml
+*.jpeg
+*.jpg
+*.png
