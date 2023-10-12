@@ -10,7 +10,9 @@ import com.luwh.we.app.service.food.FoodKindService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +34,7 @@ public class FoodKindServiceImpl extends ServiceImpl<FoodKindDao, FoodKindPO> im
         queryWrapper.groupBy(FoodKindPO::getFoodKind);
         List<FoodKindPO> foodKindPOS = baseMapper.selectList(queryWrapper);
         List<String> kinds = foodKindPOS.stream().map(e -> e.getFoodKind()).collect(Collectors.toList());
-        Collections.sort(kinds, (o1, o2) -> o1.compareTo(o2));
+        Collections.sort(kinds, (o1, o2) -> o2.compareTo(o1));
         return kinds;
     }
 
@@ -44,6 +46,14 @@ public class FoodKindServiceImpl extends ServiceImpl<FoodKindDao, FoodKindPO> im
             queryWrapper.like(FoodKindPO::getFoodKind, search);
         }
         Page<FoodKindPO> foodKindPOPage = baseMapper.selectPage(pageObj, queryWrapper);
+        List<FoodKindPO> records = foodKindPOPage.getRecords();
+        records = records == null ? new ArrayList<>() : records;
+        Collections.sort(records, new Comparator<FoodKindPO>() {
+            @Override
+            public int compare(FoodKindPO o1, FoodKindPO o2) {
+                return o1.getFoodName().compareTo(o2.getFoodName());
+            }
+        });
         return foodKindPOPage;
     }
 }

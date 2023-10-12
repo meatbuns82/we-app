@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 
 /**
+ * 消费者，消费消息，目前是单线程消费，后续考虑多线程消费（需要结合场景）
+ *
  * @author lu.wh
  * @date 2023/10/07 16/07/26
  * @description

@@ -1,39 +1,22 @@
-package com.luwh.we.app.model.po.food;
-
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.luwh.we.app.dto.response.FoodDetailOverviewResponse;
-import org.springframework.beans.BeanUtils;
+package com.luwh.we.app.dto.response;
 
 import java.util.Date;
 import java.util.List;
 
 /**
  * @author lu.wh
- * @date 2023/09/25 15/48/14
+ * @date 2023/10/12 14/58/51
  * @description
  */
-@TableName("food_detail_overview")
-public class FoodDetailOverviewPO {
-    @TableId(value = "id", type = IdType.AUTO)
+public class FoodDetailOverviewResponse {
     private Long id;
     private String cookDetailName;
     private String cookCode;
     private List<String> cookIngredient; // 菜品的成份
-    private String img;
+    private String picturePath;
     private String foodCode;
     private Boolean enable;
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
-
-    public FoodDetailOverviewResponse toResp(){
-        FoodDetailOverviewResponse response = new FoodDetailOverviewResponse();
-        BeanUtils.copyProperties(this, response);
-        return response;
-    }
 
     public Long getId() {
         return id;
@@ -67,12 +50,12 @@ public class FoodDetailOverviewPO {
         this.cookIngredient = cookIngredient;
     }
 
-    public String getImg() {
-        return img;
+    public String getPicturePath() {
+        return picturePath;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
     }
 
     public String getFoodCode() {

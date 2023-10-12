@@ -21,12 +21,15 @@ import org.springframework.util.StringUtils;
 @Service
 public class FoodDetailOverviewServiceImpl extends ServiceImpl<FoodDetailOverviewDao, FoodDetailOverviewPO>
         implements FoodDetailOverviewService {
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Page<FoodDetailOverviewPO> selectFoodDetailOverviewPage(Integer page, Integer pageSize, String foodCode, String search) {
         Page<FoodDetailOverviewPO> pageObj = new Page<>(page, pageSize);
         LambdaQueryWrapper<FoodDetailOverviewPO> queryWrapper = queryWrapper();
-        queryWrapper.eq(FoodDetailOverviewPO::getFoodCode, foodCode);
+        if(StringUtils.hasText(foodCode)){
+            queryWrapper.eq(FoodDetailOverviewPO::getFoodCode, foodCode);
+        }
         if (StringUtils.hasText(search)) {
             queryWrapper.like(FoodDetailOverviewPO::getCookDetailName, search);
         }
