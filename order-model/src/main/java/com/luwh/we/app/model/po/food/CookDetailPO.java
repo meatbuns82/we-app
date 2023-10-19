@@ -1,12 +1,19 @@
 package com.luwh.we.app.model.po.food;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.luwh.we.app.dto.response.CookDetailResponse;
+import com.luwh.we.app.dto.response.CookStepResponse;
+import com.luwh.we.app.dto.response.CookUsageFeesResponse;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author lu.wh
@@ -22,13 +29,19 @@ public class CookDetailPO {
     private String mainImgCode;
     private String cookStep;
     private String usageFees;
-    @TableField(exist = false)
-    private CookStepPo step;
-    @TableField(exist = false)
-    private CookUsageFeesPO usageFee;
     private String tip;
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
+
+    public CookDetailResponse toResp(){
+        CookDetailResponse response = new CookDetailResponse();
+        BeanUtils.copyProperties(this, response);
+        List<CookStepResponse> stepResponse = JSONObject.parseObject(this.cookStep, new TypeReference<List<CookStepResponse>>(){});
+        List<CookUsageFeesResponse> usageFeesResponse = JSONObject.parseObject(this.usageFees, new TypeReference<List<CookUsageFeesResponse>>(){});
+        response.setStep(stepResponse);
+        response.setUsageFee(usageFeesResponse);
+        return response;
+    }
 
     public Long getId() {
         return id;
@@ -62,11 +75,6 @@ public class CookDetailPO {
         this.mainImgCode = mainImgCode;
     }
 
-
-    public void setStep(CookStepPo step) {
-        this.step = step;
-    }
-
     public String getCookStep() {
         return cookStep;
     }
@@ -78,6 +86,7 @@ public class CookDetailPO {
     public String getUsageFees() {
         return usageFees;
     }
+
     public void setUsageFees(String usageFees) {
         this.usageFees = usageFees;
     }

@@ -33,6 +33,7 @@ public class FoodDetailOverviewServiceImpl extends ServiceImpl<FoodDetailOvervie
         if (StringUtils.hasText(search)) {
             queryWrapper.like(FoodDetailOverviewPO::getCookDetailName, search);
         }
+        queryWrapper.orderByDesc(FoodDetailOverviewPO::getCookDetailName);
         Page<FoodDetailOverviewPO> foodDetailOverviewPOPage = baseMapper.selectPage(pageObj, queryWrapper);
         return foodDetailOverviewPOPage;
     }

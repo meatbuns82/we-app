@@ -1,4 +1,6 @@
-package com.luwh.we.app.model.po.food;
+package com.luwh.we.app.dto.response;
+
+import java.util.List;
 
 /**
  * 这个结构体没有对应的表，而是 cook_detail表的 cook_step字段的结构体
@@ -7,10 +9,11 @@ package com.luwh.we.app.model.po.food;
  * @date 2023/09/25 15/58/08
  * @description
  */
-public class CookStepPo {
+public class CookStepResponse {
     private Integer num;
-    private String stepDesc;
+    private List<String> stepDesc;
     private String imgCode;
+    private String imgPath;
 
     public Integer getNum() {
         return num;
@@ -20,11 +23,11 @@ public class CookStepPo {
         this.num = num;
     }
 
-    public String getStepDesc() {
+    public List<String> getStepDesc() {
         return stepDesc;
     }
 
-    public void setStepDesc(String stepDesc) {
+    public void setStepDesc(List<String> stepDesc) {
         this.stepDesc = stepDesc;
     }
 
@@ -34,5 +37,13 @@ public class CookStepPo {
 
     public void setImgCode(String imgCode) {
         this.imgCode = imgCode;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 }

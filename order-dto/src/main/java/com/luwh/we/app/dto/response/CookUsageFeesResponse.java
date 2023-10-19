@@ -1,4 +1,4 @@
-package com.luwh.we.app.model.po.food;
+package com.luwh.we.app.dto.response;
 
 /**
  * 这个结构体没有对应的表，而是 cook_detail表的 usage_fees的结构体
@@ -7,7 +7,7 @@ package com.luwh.we.app.model.po.food;
  * @date 2023/09/25 15/59/20
  * @description
  */
-public class CookUsageFeesPO {
+public class CookUsageFeesResponse {
     private String usageFeeName;
     private String usageFeeNum;
 

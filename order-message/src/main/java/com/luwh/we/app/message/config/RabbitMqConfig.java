@@ -1,5 +1,6 @@
 package com.luwh.we.app.message.config;
 
+import com.luwh.we.app.core.properties.RabbitMqProperties;
 import com.luwh.we.app.message.callback.ProducerCallback;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,6 +19,8 @@ public class RabbitMqConfig {
 
     @Resource
     private ProducerCallback callback;
+    @Resource
+    private RabbitMqProperties mqProperties;
 //    @Resource
 //    private RabbitTemplate rabbitTemplate;
 //
@@ -34,10 +37,11 @@ public class RabbitMqConfig {
     public CachingConnectionFactory connectionFactory(){
         // 启动的时候可以设置确认模式，
         CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory();
-        cachingConnectionFactory.setAddresses("100.68.2.174");
-        cachingConnectionFactory.setUsername("admin");
-        cachingConnectionFactory.setPassword("123");
-        cachingConnectionFactory.setPublisherConfirms(true);
+        cachingConnectionFactory.setAddresses(mqProperties.getAddress());
+        cachingConnectionFactory.setUsername(mqProperties.getUser());
+        cachingConnectionFactory.setPassword(mqProperties.getPassword());
+        cachingConnectionFactory.setPort(mqProperties.getPort());
+        cachingConnectionFactory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.SIMPLE);
         return cachingConnectionFactory;
     }
 

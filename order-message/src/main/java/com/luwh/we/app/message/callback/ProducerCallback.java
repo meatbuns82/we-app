@@ -22,6 +22,7 @@ public class ProducerCallback implements RabbitTemplate.ConfirmCallback {
         System.out.println("======================");
         if(ack){
             // 消息确认
+
         }else {
 //            ReturnedMessage returned = correlationData.getReturned();
 //            Message message = returned.getMessage();
