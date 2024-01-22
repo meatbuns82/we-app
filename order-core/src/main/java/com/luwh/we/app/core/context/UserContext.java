@@ -1,6 +1,6 @@
-package com.luwh.we.app.common.context;
+package com.luwh.we.app.core.context;
 
-import com.luwh.we.app.model.po.user.PassportUserPO;
+import com.luwh.we.app.model.po.passport.PassportUserPO;
 
 import java.util.Optional;
 
@@ -23,6 +23,6 @@ public class UserContext {
 
     public String getUser(){
 
-        return  Optional.ofNullable(tl.get()).get().getAccount();
+        return  Optional.ofNullable(tl.get()).orElse(new PassportUserPO()).getAccount();
     }
 }

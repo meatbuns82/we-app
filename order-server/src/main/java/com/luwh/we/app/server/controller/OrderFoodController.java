@@ -1,0 +1,76 @@
+package com.luwh.we.app.server.controller;
+
+import com.luwh.we.app.core.context.UserContext;
+import com.luwh.we.app.core.web.ResponseResult;
+import com.luwh.we.app.dto.request.OrderFoodRequest;
+import com.luwh.we.app.dto.response.CookOrderResponse;
+import com.luwh.we.app.server.service.UserFoodService;
+import com.luwh.we.app.service.order.CookOrderService;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ * 点菜
+ *
+ * @author lu.wh
+ * @date 2023/11/29 17/52/40
+ * @description
+ */
+@RestController
+@CrossOrigin
+@RequestMapping("/order")
+public class OrderFoodController {
+    @Resource
+    private UserFoodService userFoodService;
+    @Resource
+    private CookOrderService cookOrderService;
+    @GetMapping("/select")
+    public ResponseResult selectOrderFood(@RequestParam("account") String account,
+                                          @RequestParam(value = "groupCode", required = false) String groupCode){
+        if(!StringUtils.hasText(account)) {
+            account = UserContext.getInstance().getUser();
+        }
+        List<CookOrderResponse> cookOrderResponses = userFoodService.selectOrderFood(account, groupCode);
+        return ResponseResult.success(cookOrderResponses);
+    }
+
+    @PostMapping("/increaseOrder")
+    public ResponseResult orderFood(@RequestBody OrderFoodRequest request){
+        if(!StringUtils.hasText(request.getAccount())) {
+            request.setAccount(UserContext.getInstance().getUser());
+        }
+        cookOrderService.orderFood(request);
+        return ResponseResult.success("");
+    }
+
+    @DeleteMapping("/deOrder")
+    public ResponseResult deOrderFood(@RequestParam("account") String account, @RequestParam("cookCode") String cookCode,
+                                      @RequestParam(value = "groupCode", required = false) String groupCode){
+        if(!StringUtils.hasText(account)) {
+            account = UserContext.getInstance().getUser();
+        }
+        cookOrderService.deOrderFood(account, cookCode, groupCode);
+        return ResponseResult.success("");
+    }
+
+    @GetMapping("/sum")
+    public ResponseResult sumOrderFood(@RequestParam("account") String account,
+                                      @RequestParam(value = "groupCode", required = false) String groupCode){
+        if(!StringUtils.hasText(account)) {
+            account = UserContext.getInstance().getUser();
+        }
+        Integer integer = cookOrderService.sumOrderFood(account, groupCode);
+        return ResponseResult.success(integer);
+    }
+
+}

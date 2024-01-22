@@ -1,10 +1,14 @@
 package com.luwh.we.app.server.controller.passport;
 
 import com.luwh.we.app.core.web.ResponseResult;
+import com.luwh.we.app.dto.request.ThirdAccountRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  *
@@ -17,9 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/passport")
 public class PassportController {
 
-    @PostMapping("/third/login")
-    public ResponseResult thirdLogin(){
+    @Resource
+    private PassportUnionService passportUnionService;
 
-        return ResponseResult.success("");
+    /**
+     * 存在就登录，不存在就注销
+     * @param request
+     * @return
+     */
+    @PostMapping("/third/login")
+    public ResponseResult thirdLogin(@RequestBody ThirdAccountRequest request){
+
+        return  passportUnionService.thirdLogin(request);
     }
 }

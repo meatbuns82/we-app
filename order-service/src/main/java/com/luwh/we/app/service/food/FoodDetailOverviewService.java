@@ -2,8 +2,11 @@ package com.luwh.we.app.service.food;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.luwh.we.app.dto.response.FoodDetailOverviewResponse;
 import com.luwh.we.app.model.po.food.FoodDetailOverviewPO;
 import com.luwh.we.app.service.BaseService;
+
+import java.util.List;
 
 /**
  * @author lu.wh
@@ -13,7 +16,11 @@ import com.luwh.we.app.service.BaseService;
 public interface FoodDetailOverviewService extends IService<FoodDetailOverviewPO>, BaseService<FoodDetailOverviewPO> {
     Page<FoodDetailOverviewPO> selectFoodDetailOverviewPage(Integer page, Integer pageSize, String foodCode, String search);
 
+    /**
+     * 切换这个食物是不是展示
+     * @param cookCode
+     */
     void foodSwitch(String cookCode);
-
     FoodDetailOverviewPO selectByCookCode(String cookCode);
+    List<FoodDetailOverviewPO> selectFoodDetailOverview(List<String> cookCodes);
 }

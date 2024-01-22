@@ -2,7 +2,7 @@ package com.luwh.we.app.service.food.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luwh.we.app.dao.CookDetailImgContentDao;
+import com.luwh.we.app.dao.food.CookDetailImgContentDao;
 import com.luwh.we.app.model.po.food.CookDetailImgContentPO;
 import com.luwh.we.app.service.food.CookDetailImgContentService;
 import org.springframework.stereotype.Service;

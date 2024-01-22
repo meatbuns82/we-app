@@ -1,4 +1,4 @@
-package com.luwh.we.app.dao;
+package com.luwh.we.app.dao.food;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.luwh.we.app.model.po.food.FoodDetailOverviewPO;

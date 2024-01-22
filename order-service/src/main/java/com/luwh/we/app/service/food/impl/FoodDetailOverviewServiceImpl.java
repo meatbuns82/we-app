@@ -5,13 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwh.we.app.common.constants.Constants;
-import com.luwh.we.app.dao.FoodDetailOverviewDao;
+import com.luwh.we.app.dao.food.FoodDetailOverviewDao;
 import com.luwh.we.app.model.po.food.FoodDetailOverviewPO;
 import com.luwh.we.app.service.food.FoodDetailOverviewService;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lu.wh
@@ -31,9 +35,10 @@ public class FoodDetailOverviewServiceImpl extends ServiceImpl<FoodDetailOvervie
             queryWrapper.eq(FoodDetailOverviewPO::getFoodCode, foodCode);
         }
         if (StringUtils.hasText(search)) {
-            queryWrapper.like(FoodDetailOverviewPO::getCookDetailName, search);
+            queryWrapper.like(FoodDetailOverviewPO::getCookDetailName, search).or()
+                    .like(FoodDetailOverviewPO::getCookIngredient, search);
         }
-        queryWrapper.orderByDesc(FoodDetailOverviewPO::getCookDetailName);
+        queryWrapper.orderByAsc(FoodDetailOverviewPO::getCookDetailName);
         Page<FoodDetailOverviewPO> foodDetailOverviewPOPage = baseMapper.selectPage(pageObj, queryWrapper);
         return foodDetailOverviewPOPage;
     }
@@ -56,5 +61,16 @@ public class FoodDetailOverviewServiceImpl extends ServiceImpl<FoodDetailOvervie
                 .last(Constants.SQL_LIMIT_ONE);
         FoodDetailOverviewPO foodDetailOverviewPO = baseMapper.selectOne(queryWrapper);
         return foodDetailOverviewPO;
+    }
+
+    @Override
+    public List<FoodDetailOverviewPO> selectFoodDetailOverview(List<String> cookCodes) {
+        if(CollectionUtils.isEmpty(cookCodes)){
+            return new ArrayList<>();
+        }
+        LambdaQueryWrapper<FoodDetailOverviewPO> queryWrapper = queryWrapper();
+        queryWrapper.in(FoodDetailOverviewPO::getCookCode, cookCodes);
+        List<FoodDetailOverviewPO> foodDetailOverviewPOS = baseMapper.selectList(queryWrapper);
+        return foodDetailOverviewPOS;
     }
 }

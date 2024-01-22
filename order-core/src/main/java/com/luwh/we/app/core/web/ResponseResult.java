@@ -1,5 +1,6 @@
 package com.luwh.we.app.core.web;
 
+import com.luwh.we.app.core.web.enums.ResponseEnums;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -33,6 +34,14 @@ public class ResponseResult<T> {
 
     public static <T> ResponseResult success(T data){
         return new ResponseResult(HttpStatus.OK.value(), null, data, true);
+    }
+
+    public static <T> ResponseResult error(ResponseEnums enums, String message) {
+        return new ResponseResult(enums.code(), message, null, false);
+    }
+
+    public static <T> ResponseResult error(ResponseEnums enums, String message, String data) {
+        return new ResponseResult(enums.code(), message, data, false);
     }
 
     public Integer getCode() {

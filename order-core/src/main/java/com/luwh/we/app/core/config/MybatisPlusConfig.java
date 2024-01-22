@@ -1,5 +1,6 @@
 package com.luwh.we.app.core.config;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class MybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 设置分页属性插件，请求页超出范围时，返回首页
-        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
         interceptor.addInnerInterceptor(paginationInnerInterceptor);
         return interceptor;
     }

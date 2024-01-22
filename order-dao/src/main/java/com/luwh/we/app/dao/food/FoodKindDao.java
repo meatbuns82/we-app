@@ -1,4 +1,4 @@
-package com.luwh.we.app.dao;
+package com.luwh.we.app.dao.food;
 
 import org.apache.ibatis.annotations.Mapper;
 

@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Base64;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -57,7 +58,9 @@ public class PictureCacheManager {
         if (file.exists()) {
             File[] cacheFiles = file.listFiles();
             for (File cacheFile : cacheFiles) {
-                cache.putIfAbsent(cacheFile.getName(), cacheFile.getAbsolutePath());
+                String name = cacheFile.getName();
+                String[] split = name.split("\\.");
+                cache.putIfAbsent(split[0], cacheFile.getAbsolutePath());
             }
         }else {
             file.mkdirs();
@@ -66,5 +69,16 @@ public class PictureCacheManager {
 
     public String getLocalCachePath(String key) {
         return cache.get(key);
+    }
+
+    public String cacheBase64(String key, String content){
+        byte[] base64Img = Base64.getDecoder().decode(content.replace("b'", "").replace("'", ""));
+        String path;
+        if (!cacheExist(key)) {
+            path = writeToLocalAndCache(key, base64Img, Constants.FILE_SUFFIX_JPEG);
+        } else {
+            path = getLocalCachePath(key);
+        }
+        return path;
     }
 }

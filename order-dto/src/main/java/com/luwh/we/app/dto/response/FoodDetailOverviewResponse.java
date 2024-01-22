@@ -9,14 +9,21 @@ import java.util.List;
  * @description
  */
 public class FoodDetailOverviewResponse {
+
     private Long id;
     private String cookDetailName;
     private String cookCode;
     private List<String> cookIngredient; // 菜品的成份
-    private String picturePath;
     private String foodCode;
     private Boolean enable;
     private Date createTime;
+    private String picturePath;
+    private String foodType;
+    private String foodTypeLabel;
+
+    private Integer goodCount;
+    private Integer badCount;
+    private Integer collectCount;
 
     public Long getId() {
         return id;
@@ -50,14 +57,6 @@ public class FoodDetailOverviewResponse {
         this.cookIngredient = cookIngredient;
     }
 
-    public String getPicturePath() {
-        return picturePath;
-    }
-
-    public void setPicturePath(String picturePath) {
-        this.picturePath = picturePath;
-    }
-
     public String getFoodCode() {
         return foodCode;
     }
@@ -80,5 +79,53 @@ public class FoodDetailOverviewResponse {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getPicturePath() {
+        return picturePath;
+    }
+
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
+    }
+
+    public String getFoodTypeLabel() {
+        return foodTypeLabel;
+    }
+
+    public void setFoodTypeLabel(String foodTypeLabel) {
+        this.foodTypeLabel = foodTypeLabel;
+    }
+
+    public Integer getGoodCount() {
+        return goodCount;
+    }
+
+    public void setGoodCount(Integer goodCount) {
+        this.goodCount = goodCount;
+    }
+
+    public Integer getBadCount() {
+        return badCount;
+    }
+
+    public void setBadCount(Integer badCount) {
+        this.badCount = badCount;
+    }
+
+    public Integer getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(Integer collectCount) {
+        this.collectCount = collectCount;
     }
 }

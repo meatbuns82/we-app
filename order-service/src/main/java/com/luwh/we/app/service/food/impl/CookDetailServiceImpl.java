@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwh.we.app.common.constants.Constants;
 import com.luwh.we.app.core.cache.PictureCacheManager;
-import com.luwh.we.app.dao.CookDetailDao;
+import com.luwh.we.app.dao.food.CookDetailDao;
 import com.luwh.we.app.dto.response.CookDetailResponse;
 import com.luwh.we.app.dto.response.CookStepResponse;
 import com.luwh.we.app.model.po.food.CookDetailImgContentPO;

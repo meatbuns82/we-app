@@ -1,7 +1,7 @@
 package com.luwh.we.app.core.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.luwh.we.app.common.context.UserContext;
+import com.luwh.we.app.core.context.UserContext;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 

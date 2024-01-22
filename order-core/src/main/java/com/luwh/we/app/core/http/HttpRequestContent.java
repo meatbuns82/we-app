@@ -14,12 +14,13 @@ import java.util.Map;
 public class HttpRequestContent {
 
     private String url;
-
     private HttpMethod method;
-
     private Map<String, Object> params;
-
     private String requestId;
+    private boolean success;
+    private String resultBody;
+
+    private String errorMsg;
 
     public static HttpRequestContent build(String url, HttpMethod method, Map<String, Object> params){
         HttpRequestContent content = new HttpRequestContent();
@@ -59,5 +60,29 @@ public class HttpRequestContent {
 
     public void setRequestId(String requestId) {
         this.requestId = requestId;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getResultBody() {
+        return resultBody;
+    }
+
+    public void setResultBody(String resultBody) {
+        this.resultBody = resultBody;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 }

@@ -3,11 +3,12 @@ package com.luwh.we.app.service.food.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luwh.we.app.dao.FoodKindDao;
+import com.luwh.we.app.dao.food.FoodKindDao;
 import com.luwh.we.app.model.po.food.FoodKindPO;
 import com.luwh.we.app.service.BaseService;
 import com.luwh.we.app.service.food.FoodKindService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -55,5 +56,16 @@ public class FoodKindServiceImpl extends ServiceImpl<FoodKindDao, FoodKindPO> im
             }
         });
         return foodKindPOPage;
+    }
+
+    @Override
+    public List<FoodKindPO> selectFoodKindByFoodCodes(List<String> foodCodes) {
+        LambdaQueryWrapper<FoodKindPO> queryWrapper = queryWrapper();
+        if(CollectionUtils.isEmpty(foodCodes)){
+            return Collections.emptyList();
+        }
+        queryWrapper.in(FoodKindPO::getFoodCode, foodCodes);
+        List<FoodKindPO> foodKindPOS = baseMapper.selectList(queryWrapper);
+        return foodKindPOS;
     }
 }

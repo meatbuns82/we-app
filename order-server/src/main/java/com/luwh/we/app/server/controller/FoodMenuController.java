@@ -5,7 +5,8 @@ import com.luwh.we.app.core.annoa.ApiDesc;
 import com.luwh.we.app.core.annoa.ApiModelDesc;
 import com.luwh.we.app.core.web.ResponsePageResult;
 import com.luwh.we.app.core.web.ResponseResult;
-import com.luwh.we.app.model.po.food.FoodKindPO;
+import com.luwh.we.app.dto.response.FoodKindResponse;
+import com.luwh.we.app.server.service.FoodAndCookOverviewService;
 import com.luwh.we.app.service.food.FoodKindService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,8 @@ import java.util.List;
 public class FoodMenuController {
     @Resource
     private FoodKindService foodKindService;
+    @Resource
+    private FoodAndCookOverviewService foodAndCookOverviewService;
     @ApiModelDesc(desc = "查询食物的种类")
     @GetMapping("/type")
     public ResponseResult selectMenuByPage(@RequestParam(value = "search", required = false) String search) {
@@ -40,7 +43,8 @@ public class FoodMenuController {
     @GetMapping("/kind/page")
     public ResponsePageResult selectMenuByPage(@RequestParam("page") Integer page,
             @RequestParam("pageSize") Integer pageSize, @RequestParam(value = "search", required = false) String search) {
-        Page<FoodKindPO> pageRes = foodKindService.selectFoodPage(page, pageSize, search);
+        Page<FoodKindResponse> pageRes = foodAndCookOverviewService.selectFoodPage(page, pageSize, search);
+
         return ResponsePageResult.success(pageRes.getCurrent(), pageRes.getSize(), pageRes.getTotal(), pageRes.getRecords());
     }
 
