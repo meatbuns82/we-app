@@ -15,9 +15,5 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.luwh</groupId>
-            <artifactId>order-model</artifactId>
-        </dependency>
     </dependencies>
 </project>

@@ -15,4 +15,5 @@ public class Constants {
     public static final String FILE_SUFFIX_JPG = ".jpg";
     public static final String FILE_SUFFIX_JPEG = ".jpeg";
     public static final String FILE_SUFFIX_PNG = ".png";
+    public static final String DEFAULT_GROUP_NAME = "我的家";
 }
