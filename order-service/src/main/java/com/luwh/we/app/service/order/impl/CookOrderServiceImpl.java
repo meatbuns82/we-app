@@ -2,6 +2,7 @@ package com.luwh.we.app.service.order.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import com.luwh.we.app.dao.order.CookOrderDao;
 import com.luwh.we.app.dto.request.OrderFoodRequest;
 import com.luwh.we.app.model.po.order.CookOrderPO;
@@ -37,7 +38,7 @@ public class CookOrderServiceImpl extends ServiceImpl<CookOrderDao, CookOrderPO>
                 .eq(CookOrderPO::getCreateUser, cookOrderPO.getCreateUser());
         CookOrderPO res = baseMapper.selectOne(wrapper);
         if(res != null){
-            throw new RuntimeException("已经点过这道菜了嗷<(＾－＾)>");
+            throw new OrderException("已经点过这道菜了嗷<(＾－＾)>");
         }
     }
 

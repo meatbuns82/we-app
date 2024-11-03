@@ -6,8 +6,8 @@ import com.luwh.we.app.dto.response.FoodDetailOverviewResponse;
 import com.luwh.we.app.dto.response.FoodKindResponse;
 import com.luwh.we.app.model.po.food.FoodKindPO;
 import com.luwh.we.app.model.po.order.CookOrderPO;
-import com.luwh.we.app.server.service.FoodAndCookOverviewService;
 import com.luwh.we.app.server.service.UserFoodService;
+import com.luwh.we.app.service.food.FoodAndCookOverviewService;
 import com.luwh.we.app.service.food.FoodKindService;
 import com.luwh.we.app.service.order.CookOrderService;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class UserFoodServiceImpl implements UserFoodService {
     @Resource
     private FoodKindService foodKindService;
     @Override
-    public List<CookOrderResponse> selectOrderFood(String account,  String groupCode) {
+    public List<CookOrderResponse> orderFoodCar(String account, String groupCode) {
         List<CookOrderPO> cookOrderPOS = cookOrderService.selectOrderFood(account, groupCode);
         List<String> cookCodes = new ArrayList<>();
         Map<String, CookOrderPO> cookOrders = new HashMap<>();

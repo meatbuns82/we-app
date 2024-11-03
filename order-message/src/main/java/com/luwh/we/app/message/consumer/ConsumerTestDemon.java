@@ -1,6 +1,7 @@
 package com.luwh.we.app.message.consumer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import com.luwh.we.app.message.MessageContent;
 import com.luwh.we.app.message.constants.Constants;
 import org.springframework.amqp.core.Message;
@@ -45,7 +46,7 @@ public class ConsumerTestDemon implements Runnable {
                         // 等待
                         wait(receive_message_interval);
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        throw new OrderException(e.toString());
                     }
                 }
             }

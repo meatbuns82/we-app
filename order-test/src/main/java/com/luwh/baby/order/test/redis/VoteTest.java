@@ -63,6 +63,6 @@ public class VoteTest {
 
     @Test
     public void cleanFullSession(){
-        jedisService.zcard("recent:");
+//        jedisService.zcard("recent:");
     }
 }

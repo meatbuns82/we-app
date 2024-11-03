@@ -7,7 +7,7 @@ import com.luwh.we.app.core.cache.PictureCacheManager;
 import com.luwh.we.app.core.web.ResponsePageResult;
 import com.luwh.we.app.core.web.ResponseResult;
 import com.luwh.we.app.dto.response.FoodDetailOverviewResponse;
-import com.luwh.we.app.server.service.FoodAndCookOverviewService;
+import com.luwh.we.app.service.food.FoodAndCookOverviewService;
 import com.luwh.we.app.service.food.FoodDetailOverviewService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

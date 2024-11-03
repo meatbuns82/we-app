@@ -9,6 +9,8 @@ public class CookOrderCollectRequest {
     private String account;
     private String cookCode;
 
+    private Boolean collect;
+
     public String getAccount() {
         return account;
     }
@@ -23,5 +25,13 @@ public class CookOrderCollectRequest {
 
     public void setCookCode(String cookCode) {
         this.cookCode = cookCode;
+    }
+
+    public Boolean getCollect() {
+        return collect;
+    }
+
+    public void setCollect(Boolean collect) {
+        this.collect = collect;
     }
 }

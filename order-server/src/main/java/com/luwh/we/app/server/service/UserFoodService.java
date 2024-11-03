@@ -19,5 +19,5 @@ public interface UserFoodService {
      * @param cookCode
      * @param groupCode
      */
-    List<CookOrderResponse> selectOrderFood(String account, String groupCode);
+    List<CookOrderResponse> orderFoodCar(String account, String groupCode);
 }

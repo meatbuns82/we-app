@@ -3,7 +3,7 @@ package com.luwh.we.app.service.food.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwh.we.app.dao.food.FoodImgContentDao;
-import com.luwh.we.app.model.po.food.FoodImgContent;
+import com.luwh.we.app.model.po.food.FoodImgContentPO;
 import com.luwh.we.app.service.food.FoodImgContentService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -17,17 +17,17 @@ import java.util.List;
  * @description
  */
 @Service
-public class FoodImgContentServiceImpl extends ServiceImpl<FoodImgContentDao, FoodImgContent> implements FoodImgContentService {
+public class FoodImgContentServiceImpl extends ServiceImpl<FoodImgContentDao, FoodImgContentPO> implements FoodImgContentService {
 
 
     @Override
-    public List<FoodImgContent> selectFoodImgContentByFoodCodes(List<String> foodCodes) {
-        LambdaQueryWrapper<FoodImgContent> wrapper = queryWrapper();
+    public List<FoodImgContentPO> selectFoodImgContentByFoodCodes(List<String> foodCodes) {
+        LambdaQueryWrapper<FoodImgContentPO> wrapper = queryWrapper();
         if(CollectionUtils.isEmpty(foodCodes)){
             return Collections.emptyList();
         }
-        wrapper.in(FoodImgContent::getFoodCode, foodCodes);
-        List<FoodImgContent> foodImgContents = baseMapper.selectList(wrapper);
+        wrapper.in(FoodImgContentPO::getFoodCode, foodCodes);
+        List<FoodImgContentPO> foodImgContents = baseMapper.selectList(wrapper);
         return foodImgContents;
     }
 }

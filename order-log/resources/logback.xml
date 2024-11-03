@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="KAFKA" class="net.logstash.logback.appender.LogstashKafkaAppender">
+        <topic>logs-topic</topic>
+        <bootstrapServers>kafka-server:9092</bootstrapServers>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="KAFKA" />
+    </root>
+</configuration>

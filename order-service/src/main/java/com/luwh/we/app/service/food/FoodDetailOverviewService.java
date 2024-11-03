@@ -16,6 +16,8 @@ import java.util.List;
 public interface FoodDetailOverviewService extends IService<FoodDetailOverviewPO>, BaseService<FoodDetailOverviewPO> {
     Page<FoodDetailOverviewPO> selectFoodDetailOverviewPage(Integer page, Integer pageSize, String foodCode, String search);
 
+    Page<FoodDetailOverviewPO> selectFoodDetailOverviewPageByCookCode(Integer page, Integer pageSize, List<String> cookCode);
+
     /**
      * 切换这个食物是不是展示
      * @param cookCode

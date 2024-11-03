@@ -1,5 +1,6 @@
 package com.luwh.we.app.core.exception;
 
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,6 @@ public class GlobalExceptionHandler {
 //    @ResponseBody
     public void handle(Exception e){
         logger.info("exception...{}", e);
-        throw new RuntimeException(e);
+        throw new OrderException(e.getMessage());
     }
 }

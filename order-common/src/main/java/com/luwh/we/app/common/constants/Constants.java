@@ -7,7 +7,6 @@ package com.luwh.we.app.common.constants;
  */
 public class Constants {
     public static final String APPLICATION_HOME = "BABY_ORDER_HOME";
-    public static final String SQL_LIMIT_ONE = " limit 1";
 
     public static final String FILE_SEPERATOR = "/";
     public static final String FILE_NAME_UNDERLINE = "_";

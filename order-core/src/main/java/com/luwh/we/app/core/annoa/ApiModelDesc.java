@@ -1,5 +1,7 @@
 package com.luwh.we.app.core.annoa;
 
+import org.springframework.core.annotation.AliasFor;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,5 +19,8 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.METHOD)
 public @interface ApiModelDesc {
+    @AliasFor("value")
     String desc() default "";
+    @AliasFor("desc")
+    String value() default "";
 }

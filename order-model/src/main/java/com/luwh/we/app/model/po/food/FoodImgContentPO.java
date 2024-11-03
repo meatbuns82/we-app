@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @description
  */
 @TableName("food_img_content")
-public class FoodImgContent {
+public class FoodImgContentPO {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     private String foodCode;

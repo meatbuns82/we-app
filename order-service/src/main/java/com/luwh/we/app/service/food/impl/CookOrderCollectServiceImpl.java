@@ -1,19 +1,27 @@
 package com.luwh.we.app.service.food.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwh.we.app.common.enums.CookOrderTypeEnums;
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import com.luwh.we.app.dao.food.UserCookCollectRelationInfoDao;
+import com.luwh.we.app.dto.response.CookCollectResponse;
+import com.luwh.we.app.dto.response.FoodDetailOverviewResponse;
 import com.luwh.we.app.model.po.food.UserCookCollectRelationInfoPO;
 import com.luwh.we.app.service.food.CookOrderCollectService;
+import com.luwh.we.app.service.food.FoodAndCookOverviewService;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author lu.wh
@@ -22,6 +30,10 @@ import java.util.Map;
  */
 @Service
 public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRelationInfoDao, UserCookCollectRelationInfoPO> implements CookOrderCollectService {
+
+    @Resource
+    private FoodAndCookOverviewService foodAndCookOverviewService;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void goodCook(String cookCode, String account) {
@@ -48,24 +60,39 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void collectCook(String cookCode, String account) {
+    public void collectCook(String cookCode, String account, boolean collect) {
         // 一个用户只能收藏一次，同时会点赞
         if (checkHasCollect(cookCode, account)) {
-            return;
+            // Repeat collect will to discard collect latest
+            discardCollect(cookCode, account);
         }
-        // 点赞，收藏
-        ((CookOrderCollectService) AopContext.currentProxy()).goodCook(cookCode, account);
-        UserCookCollectRelationInfoPO po = new UserCookCollectRelationInfoPO(account, cookCode, 2);
-        baseMapper.insert(po);
+        if(collect) {
+            // 点赞，收藏
+            ((CookOrderCollectService) AopContext.currentProxy()).goodCook(cookCode, account);
+            UserCookCollectRelationInfoPO po = new UserCookCollectRelationInfoPO(account, cookCode, 2);
+            baseMapper.insert(po);
+        }else {
+            // 取消收藏
+            discardCollect(cookCode, account);
+        }
+    }
+
+    private void discardCollect(String cookCode, String account){
+        // 取消收藏
+        ((CookOrderCollectService) AopContext.currentProxy()).badCook(cookCode, account);
+        LambdaQueryWrapper<UserCookCollectRelationInfoPO> wrapper = queryWrapper();
+        wrapper.eq(UserCookCollectRelationInfoPO::getAccount, account)
+                .eq(UserCookCollectRelationInfoPO::getCookCode, cookCode);
+        baseMapper.delete(wrapper);
     }
 
     @Override
-    public  Map<String, Map<String, Integer>> countTypeByCookCodes(List<String> cookCodes) {
-        if(CollectionUtils.isEmpty(cookCodes)){
+    public Map<String, Map<String, Integer>> countTypeByCookCodes(List<String> cookCodes) {
+        if (CollectionUtils.isEmpty(cookCodes)) {
             return new HashMap<>();
         }
         LambdaQueryWrapper<UserCookCollectRelationInfoPO> wrapper = queryWrapper();
-        wrapper.in(UserCookCollectRelationInfoPO::getCookCode ,cookCodes);
+        wrapper.in(UserCookCollectRelationInfoPO::getCookCode, cookCodes);
         List<UserCookCollectRelationInfoPO> infoPOS = baseMapper.selectList(wrapper);
         // 按照cookCode分好
         Map<String, Map<String, Integer>> map = new HashMap<>();
@@ -73,18 +100,42 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
             // 每个cookCode里按照 不同的type分类好
             CookOrderTypeEnums cookOrderType = CookOrderTypeEnums.fromVal(e.getType());
             Map<String, Integer> countMap = map.get(e.getCookCode());
-            if(countMap == null){
+            if (countMap == null) {
                 countMap = new HashMap<>();
                 map.put(e.getCookCode(), countMap);
             }
             Integer count = countMap.get(cookOrderType.getTypeDesc());
-            if(count == null){
+            if (count == null) {
                 count = 0;
             }
             countMap.put(cookOrderType.getTypeDesc(), count + 1);
             map.put(e.getCookCode(), countMap);
         });
         return map;
+    }
+
+    @Override
+    public  Page<CookCollectResponse> collectList(String account, Integer page, Integer size) {
+        // account exist check
+        if (!StringUtils.hasText(account)) {
+            throw new OrderException("Absent account");
+        }
+        // TODO account disable check
+
+        // list collect info by account
+        LambdaQueryWrapper<UserCookCollectRelationInfoPO> wrapper = queryWrapper();
+        wrapper.eq(UserCookCollectRelationInfoPO::getAccount, account);
+        List<UserCookCollectRelationInfoPO> infoPOS = baseMapper.selectList(wrapper);
+        List<String> cookCodes = infoPOS.stream().map(e -> e.getCookCode()).collect(Collectors.toList());
+
+        Page<FoodDetailOverviewResponse> overviewResponsePage =
+                foodAndCookOverviewService.selectFoodDetailOverviewByCookCode(page, size, cookCodes);
+        List<CookCollectResponse> collect = overviewResponsePage.getRecords().stream().map(
+                e -> CookCollectResponse.fromPageFoodDetailOverviewResponse(e, account)
+        ).collect(Collectors.toList());
+        Page<CookCollectResponse> response = new Page<>(overviewResponsePage.getCurrent(), overviewResponsePage.getSize());
+        response.setRecords(collect);
+        return response;
     }
 
     /**

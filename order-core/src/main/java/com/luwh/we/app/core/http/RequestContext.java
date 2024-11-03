@@ -2,6 +2,7 @@ package com.luwh.we.app.core.http;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -81,7 +82,7 @@ public class RequestContext {
                 break;
                 // 请求体
             default:
-                throw new RuntimeException("unsupport http request method:[{" + method + "}]");
+                throw new OrderException("unsupport http request method:[{" + method + "}]");
         }
         return request;
     }
@@ -111,7 +112,7 @@ public class RequestContext {
                 content.setErrorMsg(errorMsg);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new OrderException(e.getMessage());
         }
     }
     protected void afterRequest(HttpRequestContent content){

@@ -2,7 +2,8 @@ package com.luwh.we.app.service.passport.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luwh.we.app.common.constants.Constants;
+import com.luwh.we.app.common.constants.SqlConstants;
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import com.luwh.we.app.core.util.UUIDGenerateUtil;
 import com.luwh.we.app.dao.passport.PassportGroupDao;
 import com.luwh.we.app.model.po.passport.PassportGroupPO;
@@ -58,10 +59,10 @@ public class PassportGroupServiceImpl extends ServiceImpl<PassportGroupDao, Pass
         if(po.getId() != null){
             wrapper.ne(PassportGroupPO::getId, po.getId());
         }
-        wrapper.last(Constants.SQL_LIMIT_ONE);
+        wrapper.last(SqlConstants.SQL_LIMIT_ONE);
         PassportGroupPO passportGroupPO = baseMapper.selectOne(wrapper);
         if(passportGroupPO != null){
-            throw new RuntimeException("名称已经被占用了，换一个吧");
+            throw new OrderException("名称已经被占用了，换一个吧");
         }
     }
 }

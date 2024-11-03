@@ -2,6 +2,7 @@ package com.luwh.we.app.server.controller.passport.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.luwh.we.app.common.constants.Constants;
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import com.luwh.we.app.core.http.HttpRequestContent;
 import com.luwh.we.app.core.http.RequestContext;
 import com.luwh.we.app.core.properties.WechatProperties;
@@ -146,7 +147,7 @@ public class PassportUnionServiceImpl implements PassportUnionService {
             s = new AESUtil().build(sessionKey).decryptData(encryptedData, iv);
             return JSONObject.parseObject(s).getString("phoneNumber");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new OrderException(e.toString());
         }
     }
 

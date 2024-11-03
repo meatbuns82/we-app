@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luwh.we.app.common.constants.Constants;
+import com.luwh.we.app.common.constants.SqlConstants;
 import com.luwh.we.app.dao.food.FoodDetailOverviewDao;
 import com.luwh.we.app.model.po.food.FoodDetailOverviewPO;
 import com.luwh.we.app.service.food.FoodDetailOverviewService;
@@ -32,11 +32,23 @@ public class FoodDetailOverviewServiceImpl extends ServiceImpl<FoodDetailOvervie
         Page<FoodDetailOverviewPO> pageObj = new Page<>(page, pageSize);
         LambdaQueryWrapper<FoodDetailOverviewPO> queryWrapper = queryWrapper();
         if(StringUtils.hasText(foodCode)){
-            queryWrapper.eq(FoodDetailOverviewPO::getFoodCode, foodCode);
+            queryWrapper.in(FoodDetailOverviewPO::getFoodCode, foodCode);
         }
         if (StringUtils.hasText(search)) {
             queryWrapper.like(FoodDetailOverviewPO::getCookDetailName, search).or()
                     .like(FoodDetailOverviewPO::getCookIngredient, search);
+        }
+        queryWrapper.orderByAsc(FoodDetailOverviewPO::getCookDetailName);
+        Page<FoodDetailOverviewPO> foodDetailOverviewPOPage = baseMapper.selectPage(pageObj, queryWrapper);
+        return foodDetailOverviewPOPage;
+    }
+
+    @Override
+    public Page<FoodDetailOverviewPO> selectFoodDetailOverviewPageByCookCode(Integer page, Integer pageSize, List<String> cookCode) {
+        Page<FoodDetailOverviewPO> pageObj = new Page<>(page, pageSize);
+        LambdaQueryWrapper<FoodDetailOverviewPO> queryWrapper = queryWrapper();
+        if(!CollectionUtils.isEmpty(cookCode)){
+            queryWrapper.in(FoodDetailOverviewPO::getCookCode, cookCode);
         }
         queryWrapper.orderByAsc(FoodDetailOverviewPO::getCookDetailName);
         Page<FoodDetailOverviewPO> foodDetailOverviewPOPage = baseMapper.selectPage(pageObj, queryWrapper);
@@ -58,7 +70,7 @@ public class FoodDetailOverviewServiceImpl extends ServiceImpl<FoodDetailOvervie
     public FoodDetailOverviewPO selectByCookCode(String cookCode) {
         LambdaQueryWrapper<FoodDetailOverviewPO> queryWrapper = queryWrapper();
         queryWrapper.eq(FoodDetailOverviewPO::getCookCode, cookCode)
-                .last(Constants.SQL_LIMIT_ONE);
+                .last(SqlConstants.SQL_LIMIT_ONE);
         FoodDetailOverviewPO foodDetailOverviewPO = baseMapper.selectOne(queryWrapper);
         return foodDetailOverviewPO;
     }

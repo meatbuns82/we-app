@@ -1,5 +1,7 @@
 package com.luwh.we.app.server.controller.picture;
 
+import com.luwh.we.app.common.annotations.AopLogIgnore;
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,15 +24,16 @@ import java.nio.file.Files;
 @RequestMapping("/picture")
 public class PictureController {
 
+    @AopLogIgnore
     @GetMapping(value = "/visit", produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] visitPicture(@RequestParam("filePath") String filePath){
         try {
             File file = new File(filePath);
             return Files.readAllBytes(file.toPath());
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new OrderException(e.toString());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new OrderException(e.toString());
         }
     }
 }

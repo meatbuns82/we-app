@@ -1,5 +1,6 @@
 package com.luwh.we.app.server.controller;
 
+import com.luwh.we.app.core.annoa.ApiModelDesc;
 import com.luwh.we.app.core.context.UserContext;
 import com.luwh.we.app.core.web.ResponseResult;
 import com.luwh.we.app.dto.request.OrderFoodRequest;
@@ -34,16 +35,19 @@ public class OrderFoodController {
     private UserFoodService userFoodService;
     @Resource
     private CookOrderService cookOrderService;
+
+    @ApiModelDesc("查询已经点的食物车")
     @GetMapping("/select")
-    public ResponseResult selectOrderFood(@RequestParam("account") String account,
-                                          @RequestParam(value = "groupCode", required = false) String groupCode){
+    public ResponseResult orderFoodCar(@RequestParam("account") String account,
+                                       @RequestParam(value = "groupCode", required = false) String groupCode){
         if(!StringUtils.hasText(account)) {
             account = UserContext.getInstance().getUser();
         }
-        List<CookOrderResponse> cookOrderResponses = userFoodService.selectOrderFood(account, groupCode);
+        List<CookOrderResponse> cookOrderResponses = userFoodService.orderFoodCar(account, groupCode);
         return ResponseResult.success(cookOrderResponses);
     }
 
+    @ApiModelDesc("点菜")
     @PostMapping("/increaseOrder")
     public ResponseResult orderFood(@RequestBody OrderFoodRequest request){
         if(!StringUtils.hasText(request.getAccount())) {
@@ -53,6 +57,7 @@ public class OrderFoodController {
         return ResponseResult.success("");
     }
 
+    @ApiModelDesc("删除点菜")
     @DeleteMapping("/deOrder")
     public ResponseResult deOrderFood(@RequestParam("account") String account, @RequestParam("cookCode") String cookCode,
                                       @RequestParam(value = "groupCode", required = false) String groupCode){
@@ -63,6 +68,7 @@ public class OrderFoodController {
         return ResponseResult.success("");
     }
 
+    @ApiModelDesc("点餐的总数")
     @GetMapping("/sum")
     public ResponseResult sumOrderFood(@RequestParam("account") String account,
                                       @RequestParam(value = "groupCode", required = false) String groupCode){

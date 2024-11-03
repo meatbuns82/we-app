@@ -1,6 +1,8 @@
 package com.luwh.we.app.service.food;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.luwh.we.app.dto.response.CookCollectResponse;
 import com.luwh.we.app.model.po.food.UserCookCollectRelationInfoPO;
 import com.luwh.we.app.service.BaseService;
 
@@ -35,7 +37,7 @@ public interface CookOrderCollectService extends IService<UserCookCollectRelatio
      * @param cookCode
      * @param account
      */
-    void collectCook(String cookCode, String account);
+    void collectCook(String cookCode, String account, boolean collect);
 
     /**
      * 统计某个食物的各个状态的数量
@@ -43,4 +45,10 @@ public interface CookOrderCollectService extends IService<UserCookCollectRelatio
      * @return
      */
     Map<String, Map<String, Integer>> countTypeByCookCodes(List<String> cookCodes);
+
+    /**
+     * 查询当前账户的所有的收藏列表
+     * @param account
+     */
+    Page<CookCollectResponse> collectList(String account, Integer page, Integer size);
 }

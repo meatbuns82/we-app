@@ -2,7 +2,7 @@ package com.luwh.we.app.service.passport.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luwh.we.app.common.constants.Constants;
+import com.luwh.we.app.common.constants.SqlConstants;
 import com.luwh.we.app.dao.passport.PassportDao;
 import com.luwh.we.app.dto.request.ThirdAccountRequest;
 import com.luwh.we.app.dto.response.WechatAccessTokenResponse;
@@ -38,7 +38,7 @@ public class PassportServiceImpl extends ServiceImpl<PassportDao, PassportUserPO
     public PassportUserPO selectByOpenId(String openId){
         LambdaQueryWrapper<PassportUserPO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(PassportUserPO::getOpenId, openId)
-                .last(Constants.SQL_LIMIT_ONE);
+                .last(SqlConstants.SQL_LIMIT_ONE);
         return baseMapper.selectOne(wrapper);
     }
 

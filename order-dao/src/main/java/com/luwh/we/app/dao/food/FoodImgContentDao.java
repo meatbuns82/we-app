@@ -1,7 +1,7 @@
 package com.luwh.we.app.dao.food;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.luwh.we.app.model.po.food.FoodImgContent;
+import com.luwh.we.app.model.po.food.FoodImgContentPO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @description
  */
 @Mapper
-public interface FoodImgContentDao extends BaseMapper<FoodImgContent> {
+public interface FoodImgContentDao extends BaseMapper<FoodImgContentPO> {
 }

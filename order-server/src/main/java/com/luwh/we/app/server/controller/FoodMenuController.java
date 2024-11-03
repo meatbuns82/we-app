@@ -6,7 +6,7 @@ import com.luwh.we.app.core.annoa.ApiModelDesc;
 import com.luwh.we.app.core.web.ResponsePageResult;
 import com.luwh.we.app.core.web.ResponseResult;
 import com.luwh.we.app.dto.response.FoodKindResponse;
-import com.luwh.we.app.server.service.FoodAndCookOverviewService;
+import com.luwh.we.app.service.food.FoodAndCookOverviewService;
 import com.luwh.we.app.service.food.FoodKindService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

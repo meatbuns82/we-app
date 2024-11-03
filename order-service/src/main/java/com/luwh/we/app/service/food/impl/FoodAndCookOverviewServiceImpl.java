@@ -1,4 +1,4 @@
-package com.luwh.we.app.server.service.impl;
+package com.luwh.we.app.service.food.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwh.we.app.common.enums.CookOrderTypeEnums;
@@ -7,10 +7,10 @@ import com.luwh.we.app.core.cache.PictureCacheManager;
 import com.luwh.we.app.dto.response.FoodDetailOverviewResponse;
 import com.luwh.we.app.dto.response.FoodKindResponse;
 import com.luwh.we.app.model.po.food.FoodDetailOverviewPO;
-import com.luwh.we.app.model.po.food.FoodImgContent;
+import com.luwh.we.app.model.po.food.FoodImgContentPO;
 import com.luwh.we.app.model.po.food.FoodKindPO;
-import com.luwh.we.app.server.service.FoodAndCookOverviewService;
 import com.luwh.we.app.service.food.CookOrderCollectService;
+import com.luwh.we.app.service.food.FoodAndCookOverviewService;
 import com.luwh.we.app.service.food.FoodDetailOverviewService;
 import com.luwh.we.app.service.food.FoodImgContentService;
 import com.luwh.we.app.service.food.FoodKindService;
@@ -64,6 +64,25 @@ public class FoodAndCookOverviewServiceImpl implements FoodAndCookOverviewServic
     }
 
     @Override
+    public Page<FoodDetailOverviewResponse> selectFoodDetailOverviewByCookCode(Integer page, Integer pageSize, List<String> cookCode) {
+        Page<FoodDetailOverviewPO> pageRes = detailOverviewService.selectFoodDetailOverviewPageByCookCode(page, pageSize, cookCode);
+        // 转换
+        List<FoodDetailOverviewPO> records = pageRes.getRecords();
+        // 处理图片并填充一些必要属性
+        List<FoodDetailOverviewResponse> responses = toResponse(records);
+        Collections.sort(responses, new Comparator<FoodDetailOverviewResponse>() {
+            @Override
+            public int compare(FoodDetailOverviewResponse o1, FoodDetailOverviewResponse o2) {
+                return o1.getCookDetailName().compareTo(o2.getCookDetailName());
+            }
+        });
+        Page<FoodDetailOverviewResponse> objectPage = new Page<>(pageRes.getCurrent(), pageRes.getSize());
+        objectPage.setTotal(pageRes.getTotal());
+        objectPage.setRecords(responses);
+        return objectPage;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public List<FoodDetailOverviewResponse>  selectFoodDetailList(List<String> cookCodes){
         List<FoodDetailOverviewPO> po = detailOverviewService.selectFoodDetailOverview(cookCodes);
@@ -85,7 +104,7 @@ public class FoodAndCookOverviewServiceImpl implements FoodAndCookOverviewServic
             hashMap.put(foodCode, foodKindResponse);
             return  e.getFoodCode();
         }).collect(Collectors.toList());
-        List<FoodImgContent> foodImgContents = foodImgContentService.selectFoodImgContentByFoodCodes(foodCodes);
+        List<FoodImgContentPO> foodImgContents = foodImgContentService.selectFoodImgContentByFoodCodes(foodCodes);
         foodImgContents.stream().forEach(e -> {
             FoodKindResponse foodKindResponse = hashMap.get(e.getFoodCode());
             if(e.getImgBlob() != null) {

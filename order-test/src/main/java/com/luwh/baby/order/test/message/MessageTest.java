@@ -1,6 +1,7 @@
 package com.luwh.baby.order.test.message;
 
 
+import com.luwh.we.app.common.exception.exceptions.OrderException;
 import com.luwh.we.app.message.consumer.ConsumerTestDemon;
 import com.luwh.we.app.message.producer.ProducerTestDemon;
 import com.luwh.we.app.server.BabyOrderApplication;
@@ -31,7 +32,7 @@ public class MessageTest {
             }
             System.in.read();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new OrderException(e.toString());
         }
     }
 

@@ -3,6 +3,7 @@ package com.luwh.we.app.service.food.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwh.we.app.common.constants.Constants;
+import com.luwh.we.app.common.constants.SqlConstants;
 import com.luwh.we.app.core.cache.PictureCacheManager;
 import com.luwh.we.app.dao.food.CookDetailDao;
 import com.luwh.we.app.dto.response.CookDetailResponse;
@@ -37,7 +38,7 @@ public class CookDetailServiceImpl extends ServiceImpl<CookDetailDao, CookDetail
     public CookDetailResponse selectCookCode(String cookCode) {
         LambdaQueryWrapper<CookDetailPO> wrapper = queryWrapper();
         wrapper.eq(CookDetailPO::getCookCode, cookCode);
-        wrapper.last(Constants.SQL_LIMIT_ONE);
+        wrapper.last(SqlConstants.SQL_LIMIT_ONE);
         CookDetailPO cookDetailPO = baseMapper.selectOne(wrapper);
         if(cookDetailPO == null){
             return null;

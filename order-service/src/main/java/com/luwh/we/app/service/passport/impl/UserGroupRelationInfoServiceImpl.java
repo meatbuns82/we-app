@@ -3,7 +3,7 @@ package com.luwh.we.app.service.passport.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luwh.we.app.common.constants.Constants;
+import com.luwh.we.app.common.constants.SqlConstants;
 import com.luwh.we.app.dao.passport.UserGroupRelationInfoDao;
 import com.luwh.we.app.model.po.passport.UserGroupRelationInfoPO;
 import com.luwh.we.app.service.passport.UserGroupRelationInfoService;
@@ -39,7 +39,7 @@ public class UserGroupRelationInfoServiceImpl extends ServiceImpl<UserGroupRelat
         LambdaQueryWrapper<UserGroupRelationInfoPO> wrapper = queryWrapper();
         wrapper.eq(UserGroupRelationInfoPO::getAccount, account)
                 .orderByAsc(UserGroupRelationInfoPO::getVisitCount)
-                .last(Constants.SQL_LIMIT_ONE);
+                .last(SqlConstants.SQL_LIMIT_ONE);
         UserGroupRelationInfoPO userGroupRelationInfoPO = baseMapper.selectOne(wrapper);
         return userGroupRelationInfoPO;
     }
