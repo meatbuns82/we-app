@@ -47,6 +47,18 @@ public class OrderFoodController {
         return ResponseResult.success(cookOrderResponses);
     }
 
+    @ApiModelDesc(desc = "查询今天要吃的东西")
+    @GetMapping("/select/current-day")
+    public ResponseResult selectOrderFoodCarToday(@RequestParam("account") String account,
+                                                  @RequestParam(value = "groupCode", required = false) String groupCode) {
+        if(!StringUtils.hasText(account)) {
+            account = UserContext.getInstance().getUser();
+        }
+
+        List<CookOrderResponse> cookOrderResponses = userFoodService.selectOrderFoodCarToday(account, groupCode);
+        return ResponseResult.success(cookOrderResponses);
+    }
+
     @ApiModelDesc("点菜")
     @PostMapping("/increaseOrder")
     public ResponseResult orderFood(@RequestBody OrderFoodRequest request){

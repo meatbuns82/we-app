@@ -10,6 +10,7 @@ import com.luwh.we.app.model.po.passport.PassportGroupPO;
 import com.luwh.we.app.service.passport.PassportGroupService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,17 @@ public class PassportGroupServiceImpl extends ServiceImpl<PassportGroupDao, Pass
         }
         wrapper.in(PassportGroupPO::getGroupCode, groupCodes);
         List<PassportGroupPO> passportGroupPOS = baseMapper.selectList(wrapper);
+        return passportGroupPOS;
+    }
+
+    @Override
+    public PassportGroupPO selectByCode(String groupCode) {
+        LambdaQueryWrapper<PassportGroupPO> wrapper = queryWrapper();
+        if(!StringUtils.hasText(groupCode)){
+            return null;
+        }
+        wrapper.eq(PassportGroupPO::getGroupCode, groupCode);
+        PassportGroupPO passportGroupPOS = baseMapper.selectOne(wrapper);
         return passportGroupPOS;
     }
 

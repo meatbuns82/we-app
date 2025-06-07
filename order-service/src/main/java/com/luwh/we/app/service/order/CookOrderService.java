@@ -17,6 +17,8 @@ public interface CookOrderService extends IService<CookOrderPO>, BaseService<Coo
 
     List<CookOrderPO> selectOrderFood(String account, String groupCode);
 
+    List<CookOrderPO> selectOrderFoodCurrentDay(String account, String groupCode);
+
     void deOrderFood(String account, String cookCode, String groupCode);
 
     /**

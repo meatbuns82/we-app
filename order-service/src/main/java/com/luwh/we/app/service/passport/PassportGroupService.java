@@ -20,4 +20,6 @@ public interface PassportGroupService extends IService<PassportGroupPO>, BaseSer
     void deleteGroup(Long groupCode);
 
     List<PassportGroupPO> selectByCodes(List<String> groupCodes);
+
+    PassportGroupPO selectByCode(String groupCode);
 }

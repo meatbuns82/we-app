@@ -1,6 +1,6 @@
 package com.luwh.we.app.dao;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ public interface BaseRepository<T> {
     // Get
     public T getById(String id);
 
-    public T get(QueryWrapper<T> wrapper);
+    public T get(LambdaQueryWrapper<T> wrapper);
 
     public List<T> listAll();
 
-    public List<T> list(QueryWrapper<T> wrapper);
+    public List<T> list(LambdaQueryWrapper<T> wrapper);
 
     // Add
     public void add(T t);
@@ -25,12 +25,12 @@ public interface BaseRepository<T> {
     public void addBatch(List<T> t);
 
     // Delete
-    public void deleteById(String id);
+    public void delete(String id);
 
-    public void deleteById(QueryWrapper<T> wrapper);
+    public void delete(LambdaQueryWrapper<T> wrapper);
 
     // Update
     public T updateById(String id, T t);
 
-    public T update(T t, QueryWrapper<T> wrapper);
+    public T update(T t, LambdaQueryWrapper<T> wrapper);
 }

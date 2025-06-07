@@ -1,6 +1,6 @@
 package com.luwh.we.app.dao.food;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.luwh.we.app.dao.BaseRepository;
 import com.luwh.we.app.model.po.food.FoodDetailOverviewPO;
 import org.springframework.stereotype.Repository;
@@ -16,23 +16,27 @@ import java.util.List;
 public class FoodDetailOverviewRepository implements BaseRepository<FoodDetailOverviewPO> {
     private FoodDetailOverviewDao dao;
 
+    public FoodDetailOverviewRepository(FoodDetailOverviewDao dao) {
+        this.dao = dao;
+    }
+
     @Override
     public FoodDetailOverviewPO getById(String id) {
         return dao.selectById(id);
     }
 
     @Override
-    public FoodDetailOverviewPO get(QueryWrapper<FoodDetailOverviewPO> wrapper) {
+    public FoodDetailOverviewPO get(LambdaQueryWrapper<FoodDetailOverviewPO> wrapper) {
         return dao.selectOne(wrapper);
     }
 
     @Override
     public List<FoodDetailOverviewPO> listAll() {
-        return dao.selectList(new QueryWrapper<>());
+        return dao.selectList(new LambdaQueryWrapper<>());
     }
 
     @Override
-    public List<FoodDetailOverviewPO> list(QueryWrapper<FoodDetailOverviewPO> wrapper) {
+    public List<FoodDetailOverviewPO> list(LambdaQueryWrapper<FoodDetailOverviewPO> wrapper) {
         return dao.selectList(wrapper);
     }
 
@@ -49,12 +53,12 @@ public class FoodDetailOverviewRepository implements BaseRepository<FoodDetailOv
     }
 
     @Override
-    public void deleteById(String id) {
+    public void delete(String id) {
         dao.deleteById(id);
     }
 
     @Override
-    public void deleteById(QueryWrapper<FoodDetailOverviewPO> wrapper) {
+    public void delete(LambdaQueryWrapper<FoodDetailOverviewPO> wrapper) {
         dao.delete(wrapper);
     }
 
@@ -66,7 +70,7 @@ public class FoodDetailOverviewRepository implements BaseRepository<FoodDetailOv
     }
 
     @Override
-    public FoodDetailOverviewPO update(FoodDetailOverviewPO po, QueryWrapper<FoodDetailOverviewPO> wrapper) {
+    public FoodDetailOverviewPO update(FoodDetailOverviewPO po, LambdaQueryWrapper<FoodDetailOverviewPO> wrapper) {
         int update = dao.update(po, wrapper);
         FoodDetailOverviewPO updated = dao.selectOne(wrapper);
         return updated;

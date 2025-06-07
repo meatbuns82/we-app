@@ -20,4 +20,12 @@ public interface UserFoodService {
      * @param groupCode
      */
     List<CookOrderResponse> orderFoodCar(String account, String groupCode);
+
+    /**
+     * 仅查询当天的点过的菜列表
+     * @param account
+     * @param groupCode
+     * @return
+     */
+    List<CookOrderResponse> selectOrderFoodCarToday(String account, String groupCode);
 }

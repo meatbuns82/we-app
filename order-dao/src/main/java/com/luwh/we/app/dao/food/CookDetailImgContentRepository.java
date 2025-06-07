@@ -1,6 +1,6 @@
 package com.luwh.we.app.dao.food;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.luwh.we.app.dao.BaseRepository;
 import com.luwh.we.app.model.po.food.CookDetailImgContentPO;
 import org.springframework.stereotype.Repository;
@@ -27,17 +27,17 @@ public class CookDetailImgContentRepository implements BaseRepository<CookDetail
     }
 
     @Override
-    public CookDetailImgContentPO get(QueryWrapper<CookDetailImgContentPO> wrapper) {
+    public CookDetailImgContentPO get(LambdaQueryWrapper<CookDetailImgContentPO> wrapper) {
         return dao.selectOne(wrapper);
     }
 
     @Override
     public List<CookDetailImgContentPO> listAll() {
-        return dao.selectList(new QueryWrapper<>());
+        return dao.selectList(new LambdaQueryWrapper<>());
     }
 
     @Override
-    public List<CookDetailImgContentPO> list(QueryWrapper<CookDetailImgContentPO> wrapper) {
+    public List<CookDetailImgContentPO> list(LambdaQueryWrapper<CookDetailImgContentPO> wrapper) {
         return dao.selectList(wrapper);
     }
 
@@ -55,12 +55,12 @@ public class CookDetailImgContentRepository implements BaseRepository<CookDetail
     }
 
     @Override
-    public void deleteById(String id) {
+    public void delete(String id) {
         dao.deleteById(id);
     }
 
     @Override
-    public void deleteById(QueryWrapper<CookDetailImgContentPO> wrapper) {
+    public void delete(LambdaQueryWrapper<CookDetailImgContentPO> wrapper) {
         dao.delete(wrapper);
     }
 
@@ -72,7 +72,7 @@ public class CookDetailImgContentRepository implements BaseRepository<CookDetail
     }
 
     @Override
-    public CookDetailImgContentPO update(CookDetailImgContentPO cookDetailImgContentPO, QueryWrapper<CookDetailImgContentPO> wrapper) {
+    public CookDetailImgContentPO update(CookDetailImgContentPO cookDetailImgContentPO, LambdaQueryWrapper<CookDetailImgContentPO> wrapper) {
         int update = dao.update(cookDetailImgContentPO, wrapper);
         CookDetailImgContentPO updated = dao.selectOne(wrapper);
         return updated;

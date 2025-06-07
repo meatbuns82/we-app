@@ -35,6 +35,7 @@ public class FoodDetailOverviewController {
     private FoodAndCookOverviewService foodAndCookOverviewService;
     @Resource
     private PictureCacheManager pictureCacheManager;
+
     @ApiModelDesc(desc = "查询食物的种类")
     @GetMapping("/overview/page")
     public ResponsePageResult selectFoodDetailOverview(@RequestParam("page") Integer page,

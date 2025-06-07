@@ -36,13 +36,29 @@ public class UserFoodServiceImpl implements UserFoodService {
     @Override
     public List<CookOrderResponse> orderFoodCar(String account, String groupCode) {
         List<CookOrderPO> cookOrderPOS = cookOrderService.selectOrderFood(account, groupCode);
+        return convertAndFill(cookOrderPOS);
+    }
+
+    @Override
+    public List<CookOrderResponse> selectOrderFoodCarToday(String account, String groupCode) {
+        List<CookOrderPO> cookOrderPOS = cookOrderService.selectOrderFoodCurrentDay(account, groupCode);
+        return convertAndFill(cookOrderPOS);
+    }
+
+    //
+    private List<CookOrderResponse> convertAndFill(List<CookOrderPO> cookOrderPOS){
+        List<CookOrderResponse> result = new ArrayList<>();
         List<String> cookCodes = new ArrayList<>();
         Map<String, CookOrderPO> cookOrders = new HashMap<>();
         cookOrderPOS.stream().forEach(e -> {cookCodes.add(e.getCookCode()); cookOrders.put(e.getCookCode(), e);});
-
         List<FoodDetailOverviewResponse> responses = foodAndCookOverviewService.selectFoodDetailList(cookCodes);
         List<FoodKindPO> foodKindPOS = foodKindService.selectFoodKindByFoodCodes(cookCodes);
-        List<CookOrderResponse> result = new ArrayList<>();
+        fillPicturePathForCook(cookOrders, responses, foodKindPOS, result);
+        fillPicturePathForFood(cookOrders, responses, foodKindPOS, result);
+        return result;
+    }
+
+    private void fillPicturePathForCook(Map<String, CookOrderPO> cookOrders, List<FoodDetailOverviewResponse> responses, List<FoodKindPO> foodKindPOS, List<CookOrderResponse> result){
         responses.stream().forEach(e -> {
             CookOrderPO cookOrderPO = cookOrders.get(e.getCookCode());
             CookOrderResponse cookOrderResponse = cookOrderPO.toResp();
@@ -53,7 +69,9 @@ public class UserFoodServiceImpl implements UserFoodService {
 
             result.add(cookOrderResponse);
         });
-        //
+    }
+
+    private void fillPicturePathForFood(Map<String, CookOrderPO> cookOrders, List<FoodDetailOverviewResponse> responses, List<FoodKindPO> foodKindPOS, List<CookOrderResponse> result){
         foodKindPOS.stream().forEach(e -> {
             CookOrderPO cookOrderPO = cookOrders.get(e.getFoodCode());
             CookOrderResponse cookOrderResponse = cookOrderPO.toResp();
@@ -63,6 +81,5 @@ public class UserFoodServiceImpl implements UserFoodService {
             cookOrderResponse.initFrom(foodKindResponse);
             result.add(cookOrderResponse);
         });
-        return result;
     }
 }

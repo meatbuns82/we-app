@@ -26,9 +26,11 @@ public class PassportGroupPO {
     private Integer type;      // 组的类型是 永久组 1 还是临时组 0
     private Integer expireDays;  // 过期时间
     private Boolean allowGroupMemberInvite;  // 是否允许组员邀请别人
+    private Date planTime;  // 群组的计划时间
     private boolean deleted;
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
+    private boolean defaultGroup;
 
     public PassportGroupResponse toResp() {
         PassportGroupResponse groupResponse = new PassportGroupResponse();
@@ -114,5 +116,21 @@ public class PassportGroupPO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getPlanTime() {
+        return planTime;
+    }
+
+    public void setPlanTime(Date planTime) {
+        this.planTime = planTime;
+    }
+
+    public boolean isDefaultGroup() {
+        return defaultGroup;
+    }
+
+    public void setDefaultGroup(boolean defaultGroup) {
+        this.defaultGroup = defaultGroup;
     }
 }

@@ -1,6 +1,6 @@
 package com.luwh.we.app.dao.food;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.luwh.we.app.dao.BaseRepository;
 import com.luwh.we.app.model.po.food.CookDetailPO;
 import org.springframework.stereotype.Repository;
@@ -15,23 +15,28 @@ import java.util.List;
 @Repository
 public class CookDetailRepository implements BaseRepository<CookDetailPO> {
     private CookDetailDao dao;
+
+    public CookDetailRepository(CookDetailDao dao) {
+        this.dao = dao;
+    }
+
     @Override
     public CookDetailPO getById(String id) {
         return dao.selectById(id);
     }
 
     @Override
-    public CookDetailPO get(QueryWrapper<CookDetailPO> wrapper) {
+    public CookDetailPO get(LambdaQueryWrapper<CookDetailPO> wrapper) {
         return dao.selectOne(wrapper);
     }
 
     @Override
     public List<CookDetailPO> listAll() {
-        return dao.selectList(new QueryWrapper<>());
+        return dao.selectList(new LambdaQueryWrapper<>());
     }
 
     @Override
-    public List<CookDetailPO> list(QueryWrapper<CookDetailPO> wrapper) {
+    public List<CookDetailPO> list(LambdaQueryWrapper<CookDetailPO> wrapper) {
         return dao.selectList(wrapper);
     }
 
@@ -48,12 +53,12 @@ public class CookDetailRepository implements BaseRepository<CookDetailPO> {
     }
 
     @Override
-    public void deleteById(String id) {
+    public void delete(String id) {
         dao.deleteById(id);
     }
 
     @Override
-    public void deleteById(QueryWrapper<CookDetailPO> wrapper) {
+    public void delete(LambdaQueryWrapper<CookDetailPO> wrapper) {
         dao.delete(wrapper);
     }
 
@@ -65,7 +70,7 @@ public class CookDetailRepository implements BaseRepository<CookDetailPO> {
     }
 
     @Override
-    public CookDetailPO update(CookDetailPO po, QueryWrapper<CookDetailPO> wrapper) {
+    public CookDetailPO update(CookDetailPO po, LambdaQueryWrapper<CookDetailPO> wrapper) {
         int update = dao.update(po, wrapper);
         CookDetailPO updated = dao.selectOne(wrapper);
         return updated;

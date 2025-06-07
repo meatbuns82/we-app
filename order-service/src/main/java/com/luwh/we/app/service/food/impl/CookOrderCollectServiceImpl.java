@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwh.we.app.common.enums.CookOrderTypeEnums;
 import com.luwh.we.app.common.exception.exceptions.OrderException;
 import com.luwh.we.app.dao.food.UserCookCollectRelationInfoDao;
+import com.luwh.we.app.dao.food.UserCookCollectRelationInfoRepository;
 import com.luwh.we.app.dto.response.CookCollectResponse;
 import com.luwh.we.app.dto.response.FoodDetailOverviewResponse;
 import com.luwh.we.app.model.po.food.UserCookCollectRelationInfoPO;
@@ -33,6 +34,8 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
 
     @Resource
     private FoodAndCookOverviewService foodAndCookOverviewService;
+    @Resource
+    private UserCookCollectRelationInfoRepository repository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -43,7 +46,7 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         }
         cancel(cookCode, account, 1);
         UserCookCollectRelationInfoPO po = new UserCookCollectRelationInfoPO(account, cookCode, 0);
-        baseMapper.insert(po);
+        repository.add(po);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         }
         cancel(cookCode, account, 0);
         UserCookCollectRelationInfoPO po = new UserCookCollectRelationInfoPO(account, cookCode, 1);
-        baseMapper.insert(po);
+        repository.add(po);
     }
 
     @Override
@@ -70,7 +73,7 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
             // 点赞，收藏
             ((CookOrderCollectService) AopContext.currentProxy()).goodCook(cookCode, account);
             UserCookCollectRelationInfoPO po = new UserCookCollectRelationInfoPO(account, cookCode, 2);
-            baseMapper.insert(po);
+            repository.add(po);
         }else {
             // 取消收藏
             discardCollect(cookCode, account);
@@ -83,7 +86,7 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         LambdaQueryWrapper<UserCookCollectRelationInfoPO> wrapper = queryWrapper();
         wrapper.eq(UserCookCollectRelationInfoPO::getAccount, account)
                 .eq(UserCookCollectRelationInfoPO::getCookCode, cookCode);
-        baseMapper.delete(wrapper);
+        repository.delete(wrapper);
     }
 
     @Override
@@ -93,25 +96,9 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         }
         LambdaQueryWrapper<UserCookCollectRelationInfoPO> wrapper = queryWrapper();
         wrapper.in(UserCookCollectRelationInfoPO::getCookCode, cookCodes);
-        List<UserCookCollectRelationInfoPO> infoPOS = baseMapper.selectList(wrapper);
-        // 按照cookCode分好
-        Map<String, Map<String, Integer>> map = new HashMap<>();
-        infoPOS.stream().forEach(e -> {
-            // 每个cookCode里按照 不同的type分类好
-            CookOrderTypeEnums cookOrderType = CookOrderTypeEnums.fromVal(e.getType());
-            Map<String, Integer> countMap = map.get(e.getCookCode());
-            if (countMap == null) {
-                countMap = new HashMap<>();
-                map.put(e.getCookCode(), countMap);
-            }
-            Integer count = countMap.get(cookOrderType.getTypeDesc());
-            if (count == null) {
-                count = 0;
-            }
-            countMap.put(cookOrderType.getTypeDesc(), count + 1);
-            map.put(e.getCookCode(), countMap);
-        });
-        return map;
+        List<UserCookCollectRelationInfoPO> infoPOS = repository.list(wrapper);
+        // Classification by cookCode
+        return classification(infoPOS);
     }
 
     @Override
@@ -125,7 +112,7 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         // list collect info by account
         LambdaQueryWrapper<UserCookCollectRelationInfoPO> wrapper = queryWrapper();
         wrapper.eq(UserCookCollectRelationInfoPO::getAccount, account);
-        List<UserCookCollectRelationInfoPO> infoPOS = baseMapper.selectList(wrapper);
+        List<UserCookCollectRelationInfoPO> infoPOS = repository.list(wrapper);
         List<String> cookCodes = infoPOS.stream().map(e -> e.getCookCode()).collect(Collectors.toList());
 
         Page<FoodDetailOverviewResponse> overviewResponsePage =
@@ -150,7 +137,7 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         wrapper.eq(UserCookCollectRelationInfoPO::getCookCode, cookCode)
                 .eq(UserCookCollectRelationInfoPO::getAccount, account)
                 .eq(UserCookCollectRelationInfoPO::getType, type);
-        baseMapper.delete(wrapper);
+        repository.delete(wrapper);
     }
 
     private boolean checkHasGood(String cookCode, String account) {
@@ -158,8 +145,8 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         wrapper.eq(UserCookCollectRelationInfoPO::getCookCode, cookCode)
                 .eq(UserCookCollectRelationInfoPO::getAccount, account)
                 .eq(UserCookCollectRelationInfoPO::getType, 0);
-        UserCookCollectRelationInfoPO userCookCollectRelationInfoPO = baseMapper.selectOne(wrapper);
-        return userCookCollectRelationInfoPO != null;
+        UserCookCollectRelationInfoPO result = repository.get(wrapper);
+        return result != null;
     }
 
     private boolean checkHasBad(String cookCode, String account) {
@@ -167,8 +154,8 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         wrapper.eq(UserCookCollectRelationInfoPO::getCookCode, cookCode)
                 .eq(UserCookCollectRelationInfoPO::getAccount, account)
                 .eq(UserCookCollectRelationInfoPO::getType, 1);
-        UserCookCollectRelationInfoPO userCookCollectRelationInfoPO = baseMapper.selectOne(wrapper);
-        return userCookCollectRelationInfoPO != null;
+        UserCookCollectRelationInfoPO result = repository.get(wrapper);
+        return result != null;
     }
 
     private boolean checkHasCollect(String cookCode, String account) {
@@ -176,7 +163,32 @@ public class CookOrderCollectServiceImpl extends ServiceImpl<UserCookCollectRela
         wrapper.eq(UserCookCollectRelationInfoPO::getCookCode, cookCode)
                 .eq(UserCookCollectRelationInfoPO::getAccount, account)
                 .eq(UserCookCollectRelationInfoPO::getType, 2);
-        UserCookCollectRelationInfoPO userCookCollectRelationInfoPO = baseMapper.selectOne(wrapper);
-        return userCookCollectRelationInfoPO != null;
+        UserCookCollectRelationInfoPO result = repository.get(wrapper);
+        return result != null;
+    }
+
+    /**
+     * Classification for cook according cookCode
+     * @param infoPOS
+     * @return
+     */
+    private Map<String, Map<String, Integer>> classification(List<UserCookCollectRelationInfoPO> infoPOS){
+        Map<String, Map<String, Integer>> map = new HashMap<>();
+        infoPOS.stream().forEach(e -> {
+            // 每个cookCode里按照 不同的type分类好
+            CookOrderTypeEnums cookOrderType = CookOrderTypeEnums.fromVal(e.getType());
+            Map<String, Integer> countMap = map.get(e.getCookCode());
+            if (countMap == null) {
+                countMap = new HashMap<>();
+                map.put(e.getCookCode(), countMap);
+            }
+            Integer count = countMap.get(cookOrderType.getTypeDesc());
+            if (count == null) {
+                count = 0;
+            }
+            countMap.put(cookOrderType.getTypeDesc(), count + 1);
+            map.put(e.getCookCode(), countMap);
+        });
+        return map;
     }
 }

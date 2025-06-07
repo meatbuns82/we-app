@@ -25,6 +25,8 @@ public class CookOrderPO {
     private Integer type; // 0 代表点的是炒菜，1 代表的点的是火锅用食材
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
+    // 预定的使用时间
+    private Date planTime;
 
     public CookOrderResponse toResp(){
         CookOrderResponse cookOrderResponse = new CookOrderResponse();
@@ -78,5 +80,13 @@ public class CookOrderPO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getPlanTime() {
+        return planTime;
+    }
+
+    public void setPlanTime(Date planTime) {
+        this.planTime = planTime;
     }
 }

@@ -3,11 +3,13 @@ package com.luwh.we.app.service.food.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwh.we.app.dao.food.CookDetailImgContentDao;
+import com.luwh.we.app.dao.food.CookDetailImgContentRepository;
 import com.luwh.we.app.model.po.food.CookDetailImgContentPO;
 import com.luwh.we.app.service.food.CookDetailImgContentService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,8 @@ import java.util.List;
 @Service
 public class CookDetailImgContentServiceImpl extends ServiceImpl<CookDetailImgContentDao, CookDetailImgContentPO>
         implements CookDetailImgContentService {
+    @Resource
+    private CookDetailImgContentRepository repository;
 
     @Override
     public List<CookDetailImgContentPO> selectCookDetailByCookCode(List<String> imgCode) {
@@ -28,7 +32,7 @@ public class CookDetailImgContentServiceImpl extends ServiceImpl<CookDetailImgCo
         }else {
             return new ArrayList<>();
         }
-        List<CookDetailImgContentPO> cookDetailImgContentPOS = baseMapper.selectList(imgCodeWrapper);
+        List<CookDetailImgContentPO> cookDetailImgContentPOS = repository.list(imgCodeWrapper);
         return cookDetailImgContentPOS;
     }
 }
